@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.platform.user.mapper.userbasicinfo.UserBasicInfoMapper">
+
+	<select id="findUser" parameterType="java.util.Map" resultType="java.util.Map">
+		select `user_id`, `user_name`, `user_age`, `user_address` from user_basic_info where user_id = #{user_id}
+	</select>
+	
+	<insert id="addUser" parameterType="java.util.Map" >
+		INSERT INTO user_basic_info (`user_id`, `user_name`, `user_age`, `user_address`) VALUES (#{user_id}, #{user_name}, #{user_age}, #{user_address});
+	</insert>
+	
+	<delete id="delUser">
+		DELETE FROM user_basic_info WHERE user_id = #{user_id}
+	</delete>
+	
+	<!-- 指定查询Master节点数据 -->
+	<select id="findUserForMastre" parameterType="java.util.Map" resultType="java.util.Map">
+		/**mycat:db_type=master*/select `user_id`, `user_name`, `user_age`, `user_address` from user_basic_info where user_id = #{user_id}
+	</select>
+	
+	<!-- 指定查询Slave节点数据 -->
+	<select id="findUserForSlave" parameterType="java.util.Map" resultType="java.util.Map">
+		/**mycat:db_type=slave*/select `user_id`, `user_name`, `user_age`, `user_address` from user_basic_info where user_id = #{user_id}
+	</select>
+	
+	<!-- 指定查询分片1节点数据 -->
+	<select id="findUserForPartition1" parameterType="java.util.Map" resultType="java.util.Map">
+		/**mycat:dataNode=dn_wr1*/select `user_id`, `user_name`, `user_age`, `user_address` from user_basic_info where user_name = #{user_name}
+	</select>
+	
+	<!-- 指定查询分片2节点数据 -->
+	<select id="findUserForPartition2" parameterType="java.util.Map" resultType="java.util.Map">
+		/**mycat:dataNode=dn_wr2*/select `user_id`, `user_name`, `user_age`, `user_address` from user_basic_info where user_name = #{user_name}
+	</select>
+	
+	<!-- 指定查询分片3节点数据 -->
+	<select id="findUserForPartition3" parameterType="java.util.Map" resultType="java.util.Map">
+		/**mycat:dataNode=dn_wr3*/select `user_id`, `user_name`, `user_age`, `user_address` from user_basic_info where user_name = #{user_name}
+	</select>
+
+</mapper>
